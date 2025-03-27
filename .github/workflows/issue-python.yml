@@ -9,19 +9,15 @@ on:
 jobs:
   label-issue:
     runs-on: ubuntu-latest
-    if: github.event_name == 'issues' && github.event.action == 'opened'
+    permissions:
+      issues: write
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Debug event payload
-        run: echo "${{ toJson(github.event) }}"
-
-      - name: Label new issue
-        uses: actions-ecosystem/action-add-labels@v1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          labels: 'triage'
+      - run: gh issue edit "$NUMBER" --add-label "$LABELS"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          NUMBER: ${{ github.event.issue.number }}
+          LABELS: triage
 
   run-tests:
     runs-on: ubuntu-latest
