@@ -41,6 +41,9 @@ jobs:
       - name: List directory structure
         run: ls -R
 
+      - name: Print PYTHONPATH
+        run: echo $PYTHONPATH
+
       - name: Run tests
         env:
           PYTHONPATH: ${{ github.workspace }}/src
