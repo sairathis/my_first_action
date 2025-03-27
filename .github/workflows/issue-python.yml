@@ -12,11 +12,20 @@ jobs:
     permissions:
       issues: write
     steps:
-      - run: gh issue edit "$NUMBER" --add-label "$LABELS"
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Debug event payload
+        run: echo "${{ toJson(github.event) }}"
+
+      - name: Set issue number
+        run: echo "NUMBER=${{ github.event.issue.number }}" >> $GITHUB_ENV
+
+      - name: Label new issue
+        run: gh issue edit "$NUMBER" --add-label "$LABELS"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_REPO: ${{ github.repository }}
-          NUMBER: ${{ github.event.issue.number }}
           LABELS: triage
 
   run-tests:
