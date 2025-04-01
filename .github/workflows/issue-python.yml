@@ -25,7 +25,7 @@ jobs:
         run: sudo apt-get install gh
 
       - name: Debug issue number
-        run: echo "Issue/PR Number: $NUMBER"  
+        run: echo "Issue/PR Number:$NUMBER"  
 
       - name: Label new issue
         run: gh issue edit "$NUMBER" --add-label "$LABELS"
