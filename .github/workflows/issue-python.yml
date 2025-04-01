@@ -21,6 +21,9 @@ jobs:
       - name: Set issue number
         run: echo "NUMBER=${{ github.event.issue.number }}" >> $GITHUB_ENV
 
+      - name: Install GitHub CLI
+        run: sudo apt-get install gh
+
       - name: Label new issue
         run: gh issue edit "$NUMBER" --add-label "$LABELS"
         env:
